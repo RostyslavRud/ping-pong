@@ -9,6 +9,7 @@ init()
 screen = display.set_mode((WIDTH, HEIGHT))
 clock = time.Clock()
 display.set_caption("Пінг-Понг")
+screen.fill((200, 100, 200))
 # ---СЕРВЕР ---
 def connect_to_server():
     while True:
@@ -88,10 +89,13 @@ while True:
         continue  # Блокує гру після перемоги
 
     if game_state:
+        bg = image.load('заднійфон1.jpg').convert()
+        bg = transform.scale(bg, (WIDTH, HEIGHT))
         screen.fill((30, 30, 30))
-        draw.rect(screen, (0, 255, 0), (20, game_state['paddles']['0'], 20, 100))
-        draw.rect(screen, (255, 0, 255), (WIDTH - 40, game_state['paddles']['1'], 20, 100))
-        draw.circle(screen, (255, 255, 255), (game_state['ball']['x'], game_state['ball']['y']), 10)
+        screen.blit(bg, (0, 0))
+        draw.rect(screen, (0, 0, 255), (20, game_state['paddles']['0'], 20, 100))
+        draw.rect(screen, (255, 0, 0), (WIDTH - 40, game_state['paddles']['1'], 20, 100))
+        draw.circle(screen, (200, 100, 150), (game_state['ball']['x'], game_state['ball']['y']), 10)
         score_text = font_main.render(f"{game_state['scores'][0]} : {game_state['scores'][1]}", True, (255, 255, 255))
         screen.blit(score_text, (WIDTH // 2 -25, 20))
 
