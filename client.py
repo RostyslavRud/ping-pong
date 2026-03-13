@@ -1,11 +1,15 @@
 from pygame import *
+from customtkinter import*
 import socket
 import json
 from threading import Thread
+from launcher import ConnectWindow
 
 # ---ПУГАМЕ НАЛАШТУВАННЯ ---
 WIDTH, HEIGHT = 800, 600
 init()
+win = ConnectWindow()
+win.mainloop()
 screen = display.set_mode((WIDTH, HEIGHT))
 clock = time.Clock()
 display.set_caption("Пінг-Понг")
@@ -91,11 +95,17 @@ while True:
     if game_state:
         bg = image.load('заднійфон1.jpg').convert()
         bg = transform.scale(bg, (WIDTH, HEIGHT))
+        ball_img = image.load("ball1.jpg")
+        ball_img = transform.scale(ball_img, (20, 20))
+        paddle1_img = image.load("веник.png")
+        paddle1_img = transform.scale(paddle1_img, (20, 100))
+        paddle_img = image.load("швабра.png")
+        paddle_img = transform.scale(paddle_img, (20, 100))
         screen.fill((30, 30, 30))
         screen.blit(bg, (0, 0))
-        draw.rect(screen, (0, 0, 255), (20, game_state['paddles']['0'], 20, 100))
-        draw.rect(screen, (255, 0, 0), (WIDTH - 40, game_state['paddles']['1'], 20, 100))
-        draw.circle(screen, (200, 100, 150), (game_state['ball']['x'], game_state['ball']['y']), 10)
+        screen.blit(paddle_img,(20, game_state['paddles']['0']))
+        screen.blit(paddle1_img,(WIDTH - 40, game_state['paddles']['1']))
+        screen.blit(ball_img, (game_state['ball']['x'], game_state['ball']['y']))
         score_text = font_main.render(f"{game_state['scores'][0]} : {game_state['scores'][1]}", True, (255, 255, 255))
         screen.blit(score_text, (WIDTH // 2 -25, 20))
 
