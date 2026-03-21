@@ -10,7 +10,7 @@ flag = con.flag
 if con.flag != -1:
     # ---ПУГАМЕ НАЛАШТУВАННЯ ---
     WIDTH, HEIGHT = 800, 600
-    init()
+    mixer.init()
     screen = display.set_mode((WIDTH, HEIGHT))
     clock = time.Clock()
     display.set_caption("Пінг-Понг")
@@ -52,6 +52,9 @@ if con.flag != -1:
     # --- ЗОБРАЖЕННЯ ----
 
     # --- ЗВУКИ ---
+    ball = mixer.Sound("daviddumaisaudio-sword-slash-with-a-designed-impact-185434.mp3")
+    winner = mixer.Sound("peekaboolabcreative-11l-victory_sound_with_t-1749487409696-357609.mp3")
+    
 
     # --- ГРА ---
     game_over = False
@@ -82,6 +85,7 @@ if con.flag != -1:
 
             if you_winner:
                 text = "Ти переміг!"
+                winner.play()
             else:
                 text = "Пощастить наступним разом!"
 
@@ -110,9 +114,10 @@ if con.flag != -1:
             screen.blit(paddle_img, (20, game_state['paddles']['0']))
             screen.blit(paddle1_img, (WIDTH - 40, game_state['paddles']['1']))
             screen.blit(ball_img, (game_state['ball']['x'], game_state['ball']['y']))
-            score_text = font_main.render(f"{game_state['scores'][0]} : {game_state['scores'][1]}", True,
-                                          (255, 255, 255))
+            score_text = font_main.render(f"{game_state['scores'][0]} : {game_state['scores'][1]}", True, (255, 255, 255))
             screen.blit(score_text, (WIDTH // 2 - 25, 20))
+            mixer.music.load("adelinaadel-mystical-fight-cinematic-music-281174.mp3")
+            mixer.music.play(-1)
 
             if game_state['sound_event']:
                 if game_state['sound_event'] == 'wall_hit':
@@ -120,11 +125,13 @@ if con.flag != -1:
                     pass
                 if game_state['sound_event'] == 'platform_hit':
                     # звук відбиття м'ячика від платформи
-                    pass
+                    ball.play()
 
         else:
             wating_text = font_main.render(f"Очікування гравців...", True, (255, 255, 255))
             screen.blit(wating_text, (WIDTH // 2 - 25, 20))
+            mixer.music.load("noodlezstudios-waiting-146636.mp3")
+            mixer.music.play(-1)
 
         display.update()
         clock.tick(60)
